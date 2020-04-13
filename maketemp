@@ -1,0 +1,11 @@
+#!/bin/bash
+
+mkdir "$1"
+echo "$1 was just made!"
+cp test.cpp "./$1/a.cpp"
+cp test.cpp "./$1/b.cpp"
+cp test.cpp "./$1/c.cpp"
+cp test.cpp "./$1/d.cpp"
+cp test.cpp "./$1/d.cpp"
+cp test.cpp "./$1/e.cpp"
+cp test.cpp "./$1/f.cpp"
