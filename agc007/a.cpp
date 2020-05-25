@@ -1,53 +1,44 @@
 #include <bits/stdc++.h>
-typedef long long ll;
-typedef unsigned long long ull;
-#define reps(i,s,n) for(ll (i)=(s);(i)<(n);++(i))
-#define rep(i,n) reps(i,0,n)
-#define reptr(i,n) for(ll (i)=(n);(i)>=0;--(i))
-#define All(x) (x).begin(),(x).end()
-#define mp make_pair
-#define pb push_back
-const ll MOD=1e9+7;
 using namespace std;
+using ll = long long;
 
-int main(){
-  int H,W;
-  cin >> H >> W;
-  vector<vector<bool> > dp( H,vector<bool>(W,false));
-  vector<string> s(H);
-  rep(i,H){
-    cin >> s[i];
-    rep(j,W){
-      if(s[i][j] == '#'){
-        dp[i][j] = true;
-      }
-    }
-  }
-  int a=0,b=0;
-  while(1){
-    if(s[a+1][b] == '#'){
-      dp[a][b] = false;
-      a++;
-    }else if(s[a][b+1] == '#'){
-      dp[a][b] = false;
-      b++;
-    }else{
-      cout << "Impossible" << endl;
-      return 0;
-    }
-    if(a==H-1 && b==W-1) {
-      dp[a][b] = false;
-      break;
-    }
-  }
-  rep(i,H){
-    rep(j,W){
-      if(dp[i][j]){
-        cout << "Impossible" << endl;
-        return 0;
-      }
-    }
-  }
-  cout << "Possible" << endl;
-  return 0;
+int dx[] = {1, 0, 0, -1};
+int dy[] = {0, 1, -1, 0};
+
+signed main(void) {
+	int H, W;
+	cin >> H >> W;
+	vector<string> A(H);
+	for(auto &a : A) cin >> a;
+	if(A[0][0] == '.') {
+		cout << "Impossible" << endl;
+		return 0;
+	}
+	
+	queue<pair<int,int>> q;
+	q.push({0,0});
+	int routes = 0;
+	bool flag = true;
+	while(!q.empty()) {
+		int nowy = q.front().first;
+		int nowx = q.front().second;
+		q.pop();
+		if(nowy == H-1 and nowx == W-1) {
+			routes++;
+			continue;
+		}
+		int cnt = 0;
+		for(int i=0;i<4;i++) {
+			int nexty = nowy + dy[i];
+			int nextx = nowx + dx[i];
+			if(0 <= nexty and nexty < H and 0 <= nextx and nextx < W and A[nexty][nextx] == '#') {
+				if(i==0 or i==1)
+					q.push({nexty, nextx});
+				cnt++;
+			}
+		}
+		if(cnt > 1) flag = false;
+	}
+	if(routes == 1 and flag) cout << "Possible" << endl;
+	else cout << "Impossible" << endl;
 }
